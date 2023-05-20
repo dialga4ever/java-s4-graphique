@@ -18,6 +18,8 @@ public class Jeux {
     private int nbrSag;
     private int nbrCheat;
     private boolean intialized=false;
+    //iterateur de mouvable
+    private int it=0;
     public Jeux(){
         nbrSag=0;
         nbrCheat=0;
@@ -502,18 +504,32 @@ public class Jeux {
             }
         }
     }
+    public void nextTour(){
+        int i=it;
+        if(i>=mouvable.size()){
+            i=0;
+        }
+        if(i<0){
+            i=mouvable.size()-1;
+        }
+        while(i<mouvable.size()&&!mouvable.get(i).isWin()){
+            mouvable.get(i).mouvement(g);
+            i++;
+        }
+        it=i;
+    }
 
     public void oneTurn(){
-        
-        for(ObjetMobile o:mouvable){
-            o.mouvement(g);
+        int i=it;
+        if(i>=mouvable.size()){
+            i=0;
         }
-        System.out.println(g);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(i<0){
+            i=mouvable.size()-1;
         }
+        ObjetMobile o=mouvable.get(i);
+        o.mouvement(g);
+        it=i+1;
         
     }
 
