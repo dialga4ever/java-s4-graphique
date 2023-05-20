@@ -5,6 +5,7 @@ import java.util.*;
 import modele.occupant.*;
 import modele.occupant.objetFixe.*;
 import modele.occupant.objetMobile.*;
+import vue.TexteAction;
 
 /**
  * The Grille class represents a grid with occupants and borders, and has
@@ -12,18 +13,21 @@ import modele.occupant.objetMobile.*;
  * occupants, generate walls, and display the grid.
  */
 public class Grille {
+    private TexteAction texteAction;
     private Map<Position, List<Occupant>> m;
     private int maxX;
     private int maxY;
     private Occupant tresor;
     private boolean murVertical;
 
-    public Grille(int x, int y) {
+    public Grille(int x, int y, TexteAction texteAction) {
+        this.texteAction = texteAction;
         m = new HashMap<Position, List<Occupant>>();
         maxX = x;
         maxY = y;
         murVertical = (Math.random() > 0.5);
         generateWall();
+
     }
 
     /**
@@ -258,6 +262,21 @@ public class Grille {
      */
     public void setTresor(Occupant tresor) {
         this.tresor = tresor;
+    }
+
+
+    /**
+     * @return texteAction return the texteAction
+     */
+    public TexteAction getTexteAction() {
+        return texteAction;
+    }
+
+    /**
+     * @param texteAction the texteAction to set
+     */
+    public void setTexteAction(TexteAction texteAction) {
+        this.texteAction = texteAction;
     }
 
 }

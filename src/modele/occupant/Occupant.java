@@ -74,4 +74,5 @@ public abstract class Occupant implements Questionnable {
         this.grille = grille;
     }
 
+
 }

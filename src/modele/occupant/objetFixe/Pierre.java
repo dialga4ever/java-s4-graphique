@@ -194,7 +194,7 @@ public class Pierre extends ObjetFixe {
             getGrille().addOccupant(nextPos, h);
             getGrille().removeOccupant(h.getPos(), h);
             h.setPos(nextPos);
-            System.out.println(h.getRepresentation() + " passe sur le mur");
+            getGrille().getTexteAction().setTexte(h.getRepresentation() + " passe sur le mur");
             return;
         } else {
             nextPos=getClosestDirection(h);
@@ -205,7 +205,8 @@ public class Pierre extends ObjetFixe {
             } else {
                 o = containObjetFixe(nextPos, getGrille());
                 if (o == null) {
-                    System.out.println(h.getRepresentation() + " a changé de position");
+                    
+                    getGrille().getTexteAction().setTexte(h.getRepresentation() + " a changé de position");
                     getGrille().addOccupant(nextPos, h);
                     getGrille().removeOccupant(h.getPos(), h);
                     h.setPos(nextPos);

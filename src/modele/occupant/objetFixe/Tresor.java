@@ -31,7 +31,10 @@ public class Tresor extends ObjetFixe {
         h.setWin(true);
 
         if (h instanceof Hunter) {
-            System.out.println("le hunter " + h.getRepresentation() + " a changé de position et trouve le trésor");
+            getGrille().getTexteAction().setTexte("le hunter " + h.getRepresentation() + " a changé de position et trouve le trésor");
+        }
+        else{
+            getGrille().getTexteAction().setTexte("l'objet " + h.getRepresentation() + " a changé de position et trouve le trésor mais ne peut pas le prendre");
         }
     }
 }

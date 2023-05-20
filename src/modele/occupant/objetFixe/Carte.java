@@ -1,5 +1,4 @@
 package modele.occupant.objetFixe;
-
 import modele.*;
 import modele.occupant.objetMobile.*;
 
@@ -27,7 +26,7 @@ public class Carte extends ObjetFixe {
     public void process(ObjetMobile h) {
         if (!(h instanceof Hunter)) {
             h.randomDir();
-            System.out.println(h.getRepresentation() + " a été redirigé vers une direction aléatoire");
+            getGrille().getTexteAction().setTexte("L'objet " + h.getRepresentation() + " a été redirigé vers une direction aléatoire");
             return;
         }
 
@@ -87,7 +86,8 @@ public class Carte extends ObjetFixe {
                 }
             }
         }
-        System.out.println("Le hunter " + h.getRepresentation() + " a été redirigé vers le trésor");
+        
+        getGrille().getTexteAction().setTexte("Le hunter " + h.getRepresentation() + " a été redirigé vers le trésor");
 
         return;
     }

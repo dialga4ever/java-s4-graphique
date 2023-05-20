@@ -7,6 +7,7 @@ import modele.occupant.*;
 import modele.occupant.objetFixe.*;
 import modele.occupant.objetMobile.*;
 import vue.fenettre;
+import vue.TexteAction;
 /* 
 import Occupant.*;
 import Occupant.objetMobile.*;
@@ -20,20 +21,20 @@ public class Jeux {
     private boolean intialized=false;
     //iterateur de mouvable
     private int it=0;
-    public Jeux(){
+    public Jeux(TexteAction t){
         nbrSag=0;
         nbrCheat=0;
         int h=10;
         int l=10;
         mouvable=new LinkedList<ObjetMobile>();
-        g=new Grille(h,l);
+        g=new Grille(h,l,t);
         
     }
-    public Jeux(int h,int l){
+    public Jeux(int h,int l,TexteAction t){
         nbrSag=0;
         nbrCheat=0;
         mouvable=new LinkedList<ObjetMobile>();
-        g=new Grille(h,l);
+        g=new Grille(h,l,t);
         
     }
     /**
@@ -504,32 +505,40 @@ public class Jeux {
             }
         }
     }
-    public void nextTour(){
-        int i=it;
-        if(i>=mouvable.size()){
-            i=0;
+    public boolean nextTour(){
+        if(it>=mouvable.size()){
+            it=0;
         }
-        if(i<0){
-            i=mouvable.size()-1;
+        if(it<0){
+            it=0;
         }
-        while(i<mouvable.size()&&!mouvable.get(i).isWin()){
-            mouvable.get(i).mouvement(g);
-            i++;
+        while(it<mouvable.size()){
+            mouvable.get(it).mouvement(g);
+            
+            if( mouvable.get(it).isWin()&& mouvable.get(it) instanceof Hunter){
+                return true;
+            }
+            it++;
+            
         }
-        it=i;
+        return false;
     }
 
-    public void oneTurn(){
-        int i=it;
-        if(i>=mouvable.size()){
-            i=0;
+    public boolean oneTurn(){
+        if(it>=mouvable.size()){
+            it=0;
         }
-        if(i<0){
-            i=mouvable.size()-1;
+        if(it<0){
+            it=mouvable.size()-1;
         }
-        ObjetMobile o=mouvable.get(i);
+        ObjetMobile o=mouvable.get(it);
         o.mouvement(g);
-        it=i+1;
+        it=it+1;
+        System.out.println(g);
+        if(o.isWin()&&o instanceof Hunter){
+            return true;
+        }
+        return false;
         
     }
 

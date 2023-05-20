@@ -29,7 +29,8 @@ public class Sage extends ObjetMobile {
     public void process(ObjetMobile h) {
         if (!(h instanceof Hunter)) {
             h.randomDir();
-            System.out.println(h.getRepresentation() + " a été redirigé vers une direction aléatoire");
+            
+            getGrille().getTexteAction().setTexte(h.getRepresentation() + " a été redirigé vers une direction aléatoire");
             return;
         }
         Position tresor = getGrille().getTresor().getPos();
@@ -84,7 +85,7 @@ public class Sage extends ObjetMobile {
                 }
             }
         }
-        System.out.println("le hunter " + h.getRepresentation() + " a été redirigé vers le trésor");
+        getGrille().getTexteAction().setTexte("le hunter " + h.getRepresentation() + " a été redirigé vers le trésor");
         return;
     }
 }

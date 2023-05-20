@@ -28,7 +28,7 @@ public class Tool extends ObjetFixe {
         getGrille().addOccupant(nextPos, h);
         getGrille().removeOccupant(h.getPos(), h);
         h.setPos(nextPos);
-        System.out.println(h.getRepresentation() + " a obtenu un outil et a avancé");
+        getGrille().getTexteAction().setTexte(h.getRepresentation() + " a obtenu un outil et a avancé");
         return;
     }
 }

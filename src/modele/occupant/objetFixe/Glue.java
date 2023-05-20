@@ -30,11 +30,9 @@ public class Glue extends ObjetFixe {
 
         getGrille().addOccupant(nextPos, h);
         getGrille().removeOccupant(h.getPos(), h);
-        System.out.println(getGrille().removeOccupant(h.getPos(), h));
         h.setPos(nextPos);
-
-        System.out.println(
-                h.getRepresentation() + " a changé de position et est en attente pour " + tourAttente + "tour(s)");
+        
+        getGrille().getTexteAction().setTexte(h.getRepresentation() + " a changé de position et est en attente pour " + tourAttente + "tour(s)");
     }
 
     

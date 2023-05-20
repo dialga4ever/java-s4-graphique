@@ -22,7 +22,7 @@ public class Hunter extends ObjetMobile {
     public void process(ObjetMobile h) {
         if (h != this) {
             h.randomDir();
-            System.out.println(h.getRepresentation() + " a été redirigé vers une direction aléatoire");
+            getGrille().getTexteAction().setTexte(h.getRepresentation() + " a été redirigé vers une direction aléatoire");
         }
     }
 

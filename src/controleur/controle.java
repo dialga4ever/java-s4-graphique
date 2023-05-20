@@ -2,16 +2,22 @@ package controleur;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import vue.TexteAction;
 
 import modele.Jeux;
+import vue.grilleDeJeux;
 
 import java.util.*;
 
 public class controle {
-    Jeux j;
-    JPanel Zone;
-    public controle(Jeux j,JPanel Zone){
-        this.j=j;
+    private JLabel l;
+    private Jeux j;
+    private JPanel Zone;
+    private boolean win=false;
+    private TexteAction t;
+    public controle(grilleDeJeux Zone,TexteAction TextAction){
+        this.t=TextAction;
+        this.j=Zone.getJ();
         this.Zone=Zone;
         String[] choix = {
             "Paramètre custom",
@@ -50,15 +56,19 @@ public class controle {
 
         ActionListener nextTour=new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                j.nextTour();
+                boolean w =j.nextTour();
+                win=w;
+                
                 Zone.repaint();
             }
         };
         b.addActionListener(nextTour);
         ActionListener oneTurn=new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                j.oneTurn();
+                boolean w = j.oneTurn();
+                win=w;
                 Zone.repaint();
+                t.updateLabel();
             }
         };
         JButton turn=new JButton("Joué un perso");
@@ -95,5 +105,44 @@ public class controle {
             Zone.validate();
             Zone.repaint();
         }
+        Zone.validate();
+        Zone.repaint();
     }
+
+    /**
+     * @return JLabel return the l
+     */
+    public JLabel getLabel() {
+        return l;
+    }
+    
+    /**
+     * @param l the JLabel to set
+     */
+    public void setLabel(JLabel l){
+        this.l=l;
+    }
+
+
+    /**
+     * @param j the j to set
+     */
+    public void setJ(Jeux j) {
+        this.j = j;
+    }
+
+    /**
+     * @return JPanel return the Zone
+     */
+    public JPanel getZone() {
+        return Zone;
+    }
+
+    /**
+     * @param Zone the Zone to set
+     */
+    public void setZone(JPanel Zone) {
+        this.Zone = Zone;
+    }
+
 }

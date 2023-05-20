@@ -75,6 +75,6 @@ public class Cheater extends ObjetMobile {
         }
         h.setDirX(-h.getDirX());
         h.setDirY(-h.getDirY());
-        System.out.println(h.getRepresentation() + " a été redirigé à l'opposé du trésor");
+        getGrille().getTexteAction().setTexte(h.getRepresentation() + " a été redirigé à l'opposé du trésor");
     }
 }

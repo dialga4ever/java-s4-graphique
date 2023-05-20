@@ -26,24 +26,25 @@ public class Border extends ObjetFixe {
      *          object's movement accordingly.
      */
     public void process(ObjetMobile h) {
-        System.out.print(h.getRepresentation() + " a rencontré une bordure ");
+        String s=h.getRepresentation() + " a rencontré une bordure ";
         Position nextPos = h.getNextPosition();
         if (nextPos.getX() >= getGrille().getMaxX() - 1) {
-            System.out.print("à droite ");
+            s+=("à droite ");
             h.setDirX(-h.getDirX());
         }
         if (nextPos.getY() >= getGrille().getMaxY() - 1) {
             h.setDirY(-h.getDirY());
-            System.out.print("en bas ");
+            s+=("en bas ");
         }
         if (nextPos.getX() <= 0) {
-            System.out.print("à gauche ");
+            s+=("à gauche ");
             h.setDirX(-h.getDirX());
         }
         if (nextPos.getY() <= 0) {
-            System.out.print("en hauts ");
+            s+=("en hauts ");
             h.setDirY(-h.getDirY());
         }
-        System.out.print("et a été redirigé\n");
+        s+=("et a été redirigé\n");
+        getGrille().getTexteAction().setTexte(s);
     }
 }
