@@ -178,7 +178,7 @@ public abstract class ObjetMobile extends Occupant {
      */
     public void mouvement(Grille g) {
         if (tourAttente > 0) {
-            System.out.println("Mouvement en attente de " + this.getRepresentation()+" pour "+tourAttente+" tours");
+            getGrille().getTexteAction().setTexte(this.getRepresentation() + " est en attente pour " + tourAttente + " tour(s)");
             tourAttente -= 1;
             return;
         }
@@ -198,7 +198,7 @@ public abstract class ObjetMobile extends Occupant {
             g.addOccupant(nextPos, this);
             g.removeOccupant(this.getPos(), this);
             setPos(nextPos);
-            System.out.println("Mouvement normal de " + this.getRepresentation());
+            getGrille().getTexteAction().setTexte(this.getRepresentation() + " a changé de position");
             return;
         }
 
@@ -215,7 +215,6 @@ public abstract class ObjetMobile extends Occupant {
         }
         Occupant mobileMaybe = getObjetMobile(nextPos, g);
         if (mobileMaybe != null) {
-            System.out.println("Mouvement avec objet mobile");
             mobileMaybe.process(this);
             return;
         }

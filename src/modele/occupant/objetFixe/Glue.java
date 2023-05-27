@@ -24,15 +24,16 @@ public class Glue extends ObjetFixe {
     public void process(ObjetMobile h) {
         Position nextPos = h.getNextPosition();
         h.setTourAttente(tourAttente);
-        if(tourAttente>1){
-            tourAttente--;
-        }
+        
 
         getGrille().addOccupant(nextPos, h);
         getGrille().removeOccupant(h.getPos(), h);
         h.setPos(nextPos);
         
-        getGrille().getTexteAction().setTexte(h.getRepresentation() + " a changé de position et est en attente pour " + tourAttente + "tour(s)");
+        getGrille().getTexteAction().setTexte(h.getRepresentation() + " a changé de position et est en attente pour " + tourAttente + " tour(s)");
+        if(tourAttente>1){
+            tourAttente--;
+        }
     }
 
     

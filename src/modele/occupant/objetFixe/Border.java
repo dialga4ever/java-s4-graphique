@@ -29,19 +29,19 @@ public class Border extends ObjetFixe {
         String s=h.getRepresentation() + " a rencontré une bordure ";
         Position nextPos = h.getNextPosition();
         if (nextPos.getX() >= getGrille().getMaxX() - 1) {
-            s+=("à droite ");
+            s+=(" en bas ");
             h.setDirX(-h.getDirX());
         }
         if (nextPos.getY() >= getGrille().getMaxY() - 1) {
             h.setDirY(-h.getDirY());
-            s+=("en bas ");
+            s+=("à droite");
         }
         if (nextPos.getX() <= 0) {
-            s+=("à gauche ");
+            s+=(" en hauts ");
             h.setDirX(-h.getDirX());
         }
         if (nextPos.getY() <= 0) {
-            s+=("en hauts ");
+            s+=(" à gauche");
             h.setDirY(-h.getDirY());
         }
         s+=("et a été redirigé\n");

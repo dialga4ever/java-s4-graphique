@@ -134,9 +134,10 @@ public class Pierre extends ObjetFixe {
     public Position getClosestDirection(ObjetMobile h) {
         Position tempPos = new Position(getPos());
         Position currPos=h.getPos();
+        //à verifié
         if(getGrille().isMurVertical()){
-            int upperDistance = 0;
-            int lowerDistance = 0;
+            int upperDistance = -1;
+            int lowerDistance = -1;
             while(stoneAtPosition(tempPos)){
                 tempPos.setX(tempPos.getX()+1);
                 upperDistance++;
@@ -146,10 +147,21 @@ public class Pierre extends ObjetFixe {
                 tempPos.setX(tempPos.getX()-1);
                 lowerDistance++;
             }
-            if(upperDistance<lowerDistance){
-                return new Position(currPos.getX()+1,currPos.getY(),getGrille().getMaxX());
+            if(lowerDistance<upperDistance){
+                if(lowerDistance==0&&h.getPos().getX()<=this.getPos().getX()){
+                    return new Position(currPos.getX(),currPos.getY()+1,getGrille().getMaxX());
+                }
+                else{
+                    return new Position(currPos.getX()-1,currPos.getY(),getGrille().getMaxX());
+                }
             }else{
-                return new Position(currPos.getX()-1,currPos.getY(),getGrille().getMaxX());
+                if(upperDistance==0&&h.getPos().getX()>=this.getPos().getX()){
+                    return new Position(currPos.getX(),currPos.getY()+1,getGrille().getMaxX());
+                }
+                else{
+                    return new Position(currPos.getX()+1,currPos.getY(),getGrille().getMaxX());
+                }
+                
             }
         }
         else{
@@ -159,15 +171,33 @@ public class Pierre extends ObjetFixe {
                 tempPos.setY(tempPos.getY()+1);
                 rightDistance++;
             }
-            tempPos.setY(getPos().getY());
+            tempPos.setY(getPos().getY()-1);
             while(stoneAtPosition(tempPos)){
                 tempPos.setY(tempPos.getY()-1);
                 leftDistance++;
             }
             if(leftDistance<rightDistance){
-                return new Position(currPos.getX(),currPos.getY()-1,getGrille().getMaxX());
+
+                if(leftDistance==0&&h.getPos().getY()<=this.getPos().getY()){
+
+                    System.out.println(rightDistance);
+                    return new Position(currPos.getX()+1,currPos.getX(),getGrille().getMaxX());
+                }
+                else{
+
+                    System.out.println(leftDistance);
+                    return new Position(currPos.getX(),currPos.getY()-1,getGrille().getMaxX());
+                }
             }else{
-                return new Position(currPos.getX(),currPos.getY()+1,getGrille().getMaxX());
+
+                System.out.println("b");
+                if(rightDistance==0&&h.getPos().getY()>=this.getPos().getY()){
+                    return new Position(currPos.getX()+1,currPos.getY(),getGrille().getMaxX());
+                }
+                else{
+                    return new Position(currPos.getX(),currPos.getY()+1,getGrille().getMaxX());
+                }
+                
             }
         }
 
@@ -189,6 +219,7 @@ public class Pierre extends ObjetFixe {
      *          object in a grid.
      */
     public void process(ObjetMobile h) {
+        
         Position nextPos = h.getNextPosition();
         if (h.isHavetool()) {
             getGrille().addOccupant(nextPos, h);
@@ -197,6 +228,7 @@ public class Pierre extends ObjetFixe {
             getGrille().getTexteAction().setTexte(h.getRepresentation() + " passe sur le mur");
             return;
         } else {
+
             nextPos=getClosestDirection(h);
             Occupant o = containObjetMobile(nextPos, getGrille());
             if (o != null) {
@@ -205,14 +237,22 @@ public class Pierre extends ObjetFixe {
             } else {
                 o = containObjetFixe(nextPos, getGrille());
                 if (o == null) {
-                    
                     getGrille().getTexteAction().setTexte(h.getRepresentation() + " a changé de position");
                     getGrille().addOccupant(nextPos, h);
                     getGrille().removeOccupant(h.getPos(), h);
                     h.setPos(nextPos);
                 } else {
-                    h.setPos(new Position(nextPos.getX() - h.getDirX(), nextPos.getY() - h.getDirY(),getGrille().getMaxX()));
+
+                    if(!(o instanceof Border)){
+                        getGrille().removeOccupant(h.getPos(), h);
+                        h.setPos(new Position(nextPos.getX() - h.getDirX(), nextPos.getY() - h.getDirY(),getGrille().getMaxX()));
+                        getGrille().addOccupant(h.getPos(), h);
+                    }
                     o.process(h);
+                    //ICI
+                    
+
+                    System.out.println(h.getGrille());
                 }
 
             }

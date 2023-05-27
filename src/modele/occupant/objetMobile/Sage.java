@@ -29,7 +29,6 @@ public class Sage extends ObjetMobile {
     public void process(ObjetMobile h) {
         if (!(h instanceof Hunter)) {
             h.randomDir();
-            
             getGrille().getTexteAction().setTexte(h.getRepresentation() + " a été redirigé vers une direction aléatoire");
             return;
         }

@@ -3,79 +3,106 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import vue.TexteAction;
-
+import vue.fenettre;
+import vue.findejeux;
 import modele.Jeux;
 import vue.grilleDeJeux;
 
 import java.util.*;
 
+/**
+ * The "controle" class contains methods for generating a graphical user interface for a treasure hunt
+ * game and creating a panel with buttons based on an array of choices.
+ */
 public class controle {
+    private fenettre f;
     private JLabel l;
     private Jeux j;
     private JPanel Zone;
-    private boolean win=false;
     private TexteAction t;
-    public controle(grilleDeJeux Zone,TexteAction TextAction){
+    public controle(grilleDeJeux Zone,TexteAction TextAction,fenettre f){
+        this.f=f;
         this.t=TextAction;
         this.j=Zone.getJ();
         this.Zone=Zone;
         String[] choix = {
             "Paramètre custom",
             "Paramètre par défaut",
-            "Preset A",
-            "Preset B",
-            "Preset C",
-            "Preset D"
+            "Preset A rebond mur et pierre",
+            "Preset B sur un mur",
+            "Preset C carte de redirection",
+            "Preset D glue et contournement"
         };
-        ChoixPanel(choix,Zone);
-        while(!j.getIntialized()){
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        Zone.removeAll();
-        
+        ChoixPanel(choix,Zone,f);
 
-
-        
-        
     }
+    /**
+     * This function generates a graphical user interface for a treasure hunt game with buttons to
+     * advance to the next turn or quit the game.
+     * 
+     * @param NORTH A JPanel object that will be used to display the game interface.
+     */
     public void generateAvancement(JPanel NORTH){
         
         NORTH.setLayout(new GridLayout());
         JButton b=new JButton("Tour suivant!");
         JButton b_quitter=new JButton("Quitter");
-
+        
+        b.setBackground(Color.WHITE);
+        b_quitter.setBackground(Color.WHITE);
         ActionListener ecbq=new ActionListener(){
+            boolean confirm=false;
             public void actionPerformed(ActionEvent e){
-                System.exit(0);
+                if(confirm){
+                    System.exit(0);
+                }
+                else{
+                    confirm=true;
+                    b_quitter.setText("Confirmé");
+                }
+                
             }
         };
 
         ActionListener nextTour=new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 boolean w =j.nextTour();
-                win=w;
                 
                 Zone.repaint();
+                if(w){
+                    NORTH.removeAll();
+                    NORTH.setLayout(new GridLayout());
+                    NORTH.add(b_quitter);
+                    NORTH.validate();
+                    NORTH.repaint();
+                    findejeux f=new findejeux(j);
+                }
+                f.setTitle("Chasse au trésor - Tour "+j.getNbrTour());
             }
         };
         b.addActionListener(nextTour);
         ActionListener oneTurn=new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                
                 boolean w = j.oneTurn();
-                win=w;
                 Zone.repaint();
                 t.updateLabel();
+                if(w){
+                    NORTH.removeAll();
+                    NORTH.setLayout(new GridLayout());
+                    NORTH.add(b_quitter);
+                    NORTH.validate();
+                    NORTH.repaint();
+                    findejeux f=new findejeux(j);
+                }
+                f.setTitle("Chasse au trésor - Tour "+j.getNbrTour());
             }
         };
-        JButton turn=new JButton("Joué un perso");
+        JButton turn=new JButton("Jouer un perso");
         turn.addActionListener(oneTurn);
         NORTH.add(turn);
 
-
+        turn.setBackground(Color.WHITE);
         
         NORTH.setLayout(new GridLayout());
         NORTH.setVisible(true);
@@ -86,19 +113,39 @@ public class controle {
     }
 
 
-    public void ChoixPanel(String[] choix,JPanel Zone){
+    /**
+     * This function creates a panel with buttons based on an array of choices, and when a button is
+     * clicked, it retrieves the index of the selected choice and performs some actions.
+     * 
+     * @param choix An array of Strings representing the choices to be displayed on the buttons.
+     * @param Zone A JPanel where the buttons will be added and displayed.
+     * @param f It seems that "f" is an instance of a class called "fenettre". It is likely that this
+     * class represents a window or a frame in a graphical user interface (GUI) and is used to
+     * initialize and display various components such as panels, buttons, etc.
+     */
+    public void ChoixPanel(String[] choix,JPanel Zone,fenettre f){
         JButton[] buttons = new JButton[choix.length];
         Zone.setLayout(new GridLayout(choix.length, 1));
-        
-
         for (int i = 0; i < choix.length; i++) {
+            
+
             buttons[i] = new JButton(choix[i]);
+            buttons[i] .setBackground(Color.WHITE);
+            buttons[i].setFont(new Font("Arial", Font.PLAIN, 40));
             buttons[i].addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     //recupere l'index de l'element selectionné
                     int index=Arrays.asList(choix).indexOf(e.getActionCommand());
                     System.out.println(index);
-                    j.initialisation(index);
+                    Zone.removeAll();
+                    f.inizialitationZoneDeJeux();
+                    j.initialisation(index,f);
+                    
+
+                    
+                    Zone.validate();
+                    Zone.repaint();
+
                 }
             });
             Zone.add(buttons[i]);
@@ -107,6 +154,7 @@ public class controle {
         }
         Zone.validate();
         Zone.repaint();
+        Zone.setVisible(true);
     }
 
     /**

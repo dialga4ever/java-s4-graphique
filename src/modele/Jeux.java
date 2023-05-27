@@ -1,19 +1,21 @@
 package modele;
 import java.util.*;
 
-import javax.swing.JPanel;
 
 import modele.occupant.*;
 import modele.occupant.objetFixe.*;
 import modele.occupant.objetMobile.*;
-import vue.fenettre;
+import vue.CustomParm;
 import vue.TexteAction;
+import vue.fenettre;
+
 /* 
 import Occupant.*;
 import Occupant.objetMobile.*;
 import Occupant.objetFixe.*;
 */
 public class Jeux {
+    private int nbrTour=0;
     private List<ObjetMobile> mouvable;
     private Grille g;
     private int nbrSag;
@@ -37,15 +39,17 @@ public class Jeux {
         g=new Grille(h,l,t);
         
     }
+
+
     /**
      * The function initializes and prompts the user to select a parameter for generation, then
      * generates a custom or preset setup based on the selected parameter.
      */
-    public void initialisation(int i){
+    public void initialisation(int i,fenettre vue){
 
         switch(i){
             case 0:
-                generateCustomParam();
+                generateCustomParam(vue);
                 break;
             case 1:
                 generateDefaultParam();
@@ -70,69 +74,14 @@ public class Jeux {
      * This Java function generates custom parameters for a game by prompting the user to input
      * percentages for different items.
      */
-    public void generateCustomParam() {
+    public void generateCustomParam(fenettre vue) {
+        
         generateWall();
         createTesor();
-        Scanner sc = new Scanner(System.in);
-        int gluePourcent, cartePourcent, hunterPourcent, sagePourcent, cheaterPourcent, toolPourcent;
-    
-        do {
-            System.out.println("Entrez le pourcentage de glue (entre 0 et 100) : ");
-            while (!sc.hasNextInt()) {
-                System.out.println("Veuillez entrer un entier valide entre 0 et 100 : ");
-                sc.next();
-            }
-            gluePourcent = sc.nextInt();
-        } while (gluePourcent < 0 || gluePourcent > 100);
-    
-        do {
-            System.out.println("Entrez le pourcentage de carte (entre 0 et 100) : ");
-            while (!sc.hasNextInt()) {
-                System.out.println("Veuillez entrer un entier valide entre 0 et 100 : ");
-                sc.next();
-            }
-            cartePourcent = sc.nextInt();
-        } while (cartePourcent < 0 || cartePourcent > 100);
-    
-        do {
-            System.out.println("Entrer le pourcentage de hunter (entre 0 et 100) : ");
-            while (!sc.hasNextInt()) {
-                System.out.println("Veuillez entrer un entier valide entre 0 et 100 : ");
-                sc.next();
-            }
-            hunterPourcent = sc.nextInt();
-        } while (hunterPourcent < 0 || hunterPourcent > 100);
-    
-        do {
-            System.out.println("Entrez le pourcentage de sage (entre 0 et 100) : ");
-            while (!sc.hasNextInt()) {
-                System.out.println("Veuillez entrer un entier valide entre 0 et 100 : ");
-                sc.next();
-            }
-            sagePourcent = sc.nextInt();
-        } while (sagePourcent < 0 || sagePourcent > 100);
-    
-        do {
-            System.out.println("Entrez le pourcentage de cheater (entre 0 et 100) : ");
-            while (!sc.hasNextInt()) {
-                System.out.println("Veuillez entrer un entier valide entre 0 et 100 : ");
-                sc.next();
-            }
-            cheaterPourcent = sc.nextInt();
-        } while (cheaterPourcent < 0 || cheaterPourcent > 100);
-    
-        do {
-            System.out.println("Entrez le pourcentage de tool (entre 0 et 100) : ");
-            while (!sc.hasNextInt()) {
-                System.out.println("Veuillez entrer un entier valide entre 0 et 100 : ");
-                sc.next();
-            }
-            toolPourcent = sc.nextInt();
-        } while (toolPourcent < 0 || toolPourcent > 100);
-    
-        generateParam(gluePourcent, cartePourcent, hunterPourcent, sagePourcent, cheaterPourcent, toolPourcent);
-        sc.close();
-        intialized=true;
+        // Création de la fenêtre
+
+        CustomParm c=new CustomParm(this,vue);
+        
     }
 
     
@@ -143,7 +92,6 @@ public class Jeux {
      */
     public void generateDemoSetupA(){
         createTesor();
-        System.out.println(this);
         g.removeOccupant(g.getTresor().getPos(), g.getTresor());
         g.getTresor().getPos().setX(7);
         g.getTresor().getPos().setY(8);
@@ -152,7 +100,8 @@ public class Jeux {
         createHunter(3,4,1,1);
         generateWallAt(new Position(2, 7,g.getMaxX()), new Position(7, 7,g.getMaxX()));
         
-        intialized=true;
+        intialized = true;
+        
     }
     /**
      * The function generates a demo setup for a game by creating a treasure, moving it to a new
@@ -170,7 +119,8 @@ public class Jeux {
         createTool(4,5);
         generateWallAt(new Position(2, 7,g.getMaxX()), new Position(7, 7,g.getMaxX()));
         
-        intialized=true;
+        intialized = true;
+        
     }
     /**
      * The function generates a demo setup for a game by creating a treasure, moving it to a new
@@ -189,7 +139,8 @@ public class Jeux {
         createTool(4,5);
         generateWallAt(new Position(2, 7,g.getMaxX()), new Position(7, 7,g.getMaxX()));
         
-        intialized=true;
+        intialized = true;
+        
     }
 
     /**
@@ -208,14 +159,15 @@ public class Jeux {
         createGlue(4,1);
         generateWallAt(new Position(3,2,g.getMaxX()), new Position(3, 7,g.getMaxX()));
         
-        intialized=true;
+        intialized = true;
+        
     }
 
     /**
      * This function generates default parameters for a game by setting percentages for different types
      * of game elements.
      */
-    public void generateDefaultParam(){
+    public  void generateDefaultParam(){
         generateWall();
         createTesor();
         
@@ -225,40 +177,41 @@ public class Jeux {
         int sagePourcent=2;
         int cheaterPourcent=2;
         int toolPourcent=2;
-
-        generateParam(gluePourcent,cartePourcent,hunterPourcent,sagePourcent,cheaterPourcent,toolPourcent);
+        CustomParm c=new CustomParm(gluePourcent,cartePourcent,hunterPourcent,sagePourcent,cheaterPourcent,toolPourcent);
+        generateParam(c);
         
-        intialized=true;
+        intialized = true;
         
     }
-    /**
-     * This function generates a set of game elements (glue, cards, hunters, sages, cheaters, and
-     * tools) based on the percentage of each element specified as input parameters.
-     * 
-     * @param gluePourcent The percentage of the game board that should be filled with Glue objects.
-     * @param cartePourcent The percentage of the total number of cells in the grid that will be
-     * occupied by the "Carte" object.
-     * @param hunterPourcent The percentage of the total number of cells in the grid that should be
-     * occupied by hunters.
-     * @param sagePourcent The percentage of the total number of cells in the grid that should be
-     * occupied by Sage objects.
-     * @param cheaterPourcent The percentage of Cheater occupants to be generated in the game grid.
-     * @param toolPourcent The percentage of the total number of cells in the grid that should be
-     * occupied by Tool objects.
-     */
-    public void generateParam(int gluePourcent,int cartePourcent,int hunterPourcent,int sagePourcent,int cheaterPourcent,int toolPourcent){
+
+
+/**
+ * The function generates game parameters based on the input custom parameters and adds corresponding
+ * occupants to the game board.
+ * 
+ * @param c A CustomParm object that contains the percentages of different types of occupants to be
+ * generated in the game grid. These include glue, carte, hunter, sage, cheater, and tool.
+ */
+    public void generateParam(CustomParm c){
+        int gluePourcent=c.getGluePourcent();
+        int cartePourcent=c.getCartePourcent();
+        int hunterPourcent=c.getHunterPourcent();
+        int sagePourcent=c.getSagePourcent();
+        int cheaterPourcent=c.getCheaterPourcent();
+        int toolPourcent=c.getToolPourcent();
+
+
         int total=g.getMaxX()*g.getMaxY();
         int nbrHunter=total/100*hunterPourcent;
         int nbrSage=total/100*sagePourcent;
         int nbrCheater=total/100*cheaterPourcent;
         int nbrTool=total/100*toolPourcent;
-        if((nbrHunter)>23){
-            nbrHunter=24;
+        if((nbrHunter)>24){
+            nbrHunter=24;// 26 nombre total de lettre de a à z moins s et c qui sont les sages et cheaters
         }
         for(int i=0;i<(g.getMaxX()*g.getMaxY()/100*gluePourcent);i++){
             Position P=randomEmptyPosition();
             if(P==null){
-                System.out.println("plus de place disponible");
                 break;
             }
             Occupant glue=new Glue('&',P,g);
@@ -267,7 +220,6 @@ public class Jeux {
         for(int i=0;i<(g.getMaxX()*g.getMaxY()/100*cartePourcent);i++){
             Position P=randomEmptyPosition();
             if(P==null){
-                System.out.println("plus de place disponible");
                 break;
             }
             Occupant carte=new Carte('%',P,g);
@@ -287,7 +239,6 @@ public class Jeux {
         for(int i=0;i<nbrTool;i++){
             Position P=randomEmptyPosition();
             if(P==null){
-                System.out.println("plus de place disponible");
                 break;
             }
             Occupant tools=new Tool('@',P,g);
@@ -372,7 +323,6 @@ public class Jeux {
     public void createTesor(){
         Position P=randomEmptyPosition();
         if(P==null){
-            System.out.println("plus de place disponible");
             return;
         }
         Occupant tresor=new Tresor('$',P,g);
@@ -385,7 +335,6 @@ public class Jeux {
     public void createCheater(){
         Position P=randomEmptyPosition();
         if(P==null){
-            System.out.println("plus de place disponible");
             return;
         }
         Occupant cheater=new Cheater((char)('C'),P,g);
@@ -460,7 +409,6 @@ public class Jeux {
         }
         Position P=randomEmptyPosition();
         if(P==null){
-            System.out.println("plu de place disponible");
             return;
         }
         
@@ -474,39 +422,30 @@ public class Jeux {
     void createSage(){
         Position P=randomEmptyPosition();
         if(P==null){
-            System.out.println("plu de place disponible");
             return;
         }
         Occupant perso=new Sage((char)('S'),P,g);
         g.addOccupant(perso.getPos(), perso);
         mouvable.add((ObjetMobile)perso);
     }
-    /**
-     * This function plays a game by iterating through movable objects and calling their movement
-     * method until a win condition is met.
-     */
-    public void play(){
-        System.out.println(g);
-        while(!isWin()){
-            for(ObjetMobile o:mouvable){
-                System.out.println("_____________________________________________________________\n");
-                o.mouvement(g);
-                System.out.println(g);
-                if(isWin()){
-                    
-                    System.out.println("win pour"+o.getRepresentation()+" "+o.getPos().getX()+" "+o.getPos().getY());
-                    break;
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+
+
+
+/**
+ * The function iterates through a list of movable objects and performs their movements until a hunter
+ * wins or there are no more movable objects.
+ * 
+ * @return The method is returning a boolean value. It returns true if all the movable objects have
+ * been moved and a hunter has won the game, and false otherwise.
+ */
     public boolean nextTour(){
+        if(mouvable.isEmpty()){
+            return true;
+        }
+
+
         if(it>=mouvable.size()){
+            nbrTour++;
             it=0;
         }
         if(it<0){
@@ -524,17 +463,32 @@ public class Jeux {
         return false;
     }
 
+    /**
+    * This function executes one turn of a game by moving an object and checking if it has won.
+    * 
+    * @return The method `oneTurn()` returns a boolean value. If all the movable objects have been
+    * moved and there are no more moves left, it returns `true`. If a Hunter object has reached the
+    * target and won the game, it also returns `true`. Otherwise, it returns `false`.
+    */
     public boolean oneTurn(){
+        
+        if(mouvable.isEmpty()){
+            return true;
+        }
+
+
         if(it>=mouvable.size()){
+            nbrTour++;
             it=0;
         }
         if(it<0){
             it=mouvable.size()-1;
         }
         ObjetMobile o=mouvable.get(it);
+        System.out.println(this);
+        System.out.println(o.getPos());
         o.mouvement(g);
         it=it+1;
-        System.out.println(g);
         if(o.isWin()&&o instanceof Hunter){
             return true;
         }
@@ -751,6 +705,49 @@ public class Jeux {
      */
     public void setIntialized(Boolean intialized) {
         this.intialized = intialized;
+    }
+
+
+    /**
+     * @return int return the nbrTour
+     */
+    public int getNbrTour() {
+        return nbrTour;
+    }
+
+    /**
+     * @param nbrTour the nbrTour to set
+     */
+    public void setNbrTour(int nbrTour) {
+        this.nbrTour = nbrTour;
+    }
+
+    /**
+     * @return boolean return the intialized
+     */
+    public boolean isIntialized() {
+        return intialized;
+    }
+
+    /**
+     * @return int return the it
+     */
+    public int getIt() {
+        return it;
+    }
+    public Occupant getwinner(){
+        for(ObjetMobile o:mouvable){
+            if(o.isWin()&&o instanceof Hunter){
+                return (Occupant)o;
+            }
+        }
+        return null;
+    }
+    /**
+     * @param it the it to set
+     */
+    public void setIt(int it) {
+        this.it = it;
     }
 
 }

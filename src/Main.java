@@ -1,15 +1,13 @@
 import modele.*;
-import vue.TexteAction;
+import vue.fenettre;
+import vue.findejeux;
+
 public class Main {
     
     /** 
-     * @param args
+     * @param args tabkeaux d'argument donnée au fichier
      */
     public static void main(String[] args) {
-        /* 
-        Jeux j=new Jeux(TexteAction);
-        j.initialisation(1);
-        j.play();
-        */
+        fenettre f=new fenettre();
     }
 }
