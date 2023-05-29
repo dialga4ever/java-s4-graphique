@@ -20,6 +20,7 @@ public class controle {
     private Jeux j;
     private JPanel Zone;
     private TexteAction t;
+    private boolean auto=false;
     public controle(grilleDeJeux Zone,TexteAction TextAction,fenettre f){
         this.f=f;
         this.t=TextAction;
@@ -66,18 +67,22 @@ public class controle {
 
         ActionListener nextTour=new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                boolean w =j.nextTour();
+                do{
+                    boolean w =j.nextTour();
+                    Zone.repaint();
+                    if(w){
+                        NORTH.removeAll();
+                        NORTH.setLayout(new GridLayout());
+                        NORTH.add(b_quitter);
+                        NORTH.validate();
+                        NORTH.repaint();
+                        findejeux f=new findejeux(j);
+                    }
+                    f.setTitle("Chasse au trésor - Tour "+j.getNbrTour());
+                }while(auto);
+
+
                 
-                Zone.repaint();
-                if(w){
-                    NORTH.removeAll();
-                    NORTH.setLayout(new GridLayout());
-                    NORTH.add(b_quitter);
-                    NORTH.validate();
-                    NORTH.repaint();
-                    findejeux f=new findejeux(j);
-                }
-                f.setTitle("Chasse au trésor - Tour "+j.getNbrTour());
             }
         };
         b.addActionListener(nextTour);

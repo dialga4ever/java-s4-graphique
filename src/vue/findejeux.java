@@ -17,31 +17,25 @@ public class findejeux{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         frame.setTitle("Chasse au trésor");
+        frame.setSize(300,150);
         frame.setResizable(false);
-        frame.setSize(200,100);
         ImageIcon img = new ImageIcon("src/vue/image/$.png");
         frame.setIconImage(img.getImage());
         Container container =frame.getContentPane();
         container.setLayout(new BorderLayout());
         container.revalidate();
         container.repaint();
-        
-        Occupant o=j.getwinner();
-        ///Zone du plateaux
-        JLabel l=new JLabel("Fin de jeux winner : "+o.getRepresentation());
 
-        container.add(l);
 
-        //JLabel l2=new JLabel("");
-        
-        //container.add(l2);
-        //JLabel panel = new JLabel();
+        Occupant o = j.getwinner();
+        JLabel l = new JLabel("Fin de jeux winner: " + o.getRepresentation());
+        container.add(l, BorderLayout.NORTH);
 
-        //ImageIcon pic = new ImageIcon("A.jpg");
-        //panel.setIcon(pic);
-        
-        //panel.setPreferredSize(new Dimension(100, 100));
-        //container.add(panel);
+        JLabel panel = new JLabel();
+        ImageIcon pic = new ImageIcon("src/vue/image/A.png");
+        panel.setIcon(pic);
+        panel.setPreferredSize(new Dimension(100, 100));
+        container.add(panel, BorderLayout.CENTER);
 
 
         container.revalidate();

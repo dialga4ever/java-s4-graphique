@@ -148,15 +148,15 @@ public class Pierre extends ObjetFixe {
                 lowerDistance++;
             }
             if(lowerDistance<upperDistance){
-                if(lowerDistance==0&&h.getPos().getX()<=this.getPos().getX()){
-                    return new Position(currPos.getX(),currPos.getY()+1,getGrille().getMaxX());
+                if(lowerDistance==0&&h.getPos().getX()<this.getPos().getX()){
+                    return new Position(this.getPos().getX(),this.getPos().getY()+1,getGrille().getMaxX());
                 }
                 else{
                     return new Position(currPos.getX()-1,currPos.getY(),getGrille().getMaxX());
                 }
             }else{
-                if(upperDistance==0&&h.getPos().getX()>=this.getPos().getX()){
-                    return new Position(currPos.getX(),currPos.getY()+1,getGrille().getMaxX());
+                if(upperDistance==0&&h.getPos().getX()>this.getPos().getX()){
+                    return new Position(this.getPos().getX(),this.getPos().getY()+1,getGrille().getMaxX());
                 }
                 else{
                     return new Position(currPos.getX()+1,currPos.getY(),getGrille().getMaxX());
@@ -178,10 +178,10 @@ public class Pierre extends ObjetFixe {
             }
             if(leftDistance<rightDistance){
 
-                if(leftDistance==0&&h.getPos().getY()<=this.getPos().getY()){
+                if(leftDistance==0&&h.getPos().getY()<this.getPos().getY()){
 
                     System.out.println(rightDistance);
-                    return new Position(currPos.getX()+1,currPos.getX(),getGrille().getMaxX());
+                    return new Position(this.getPos().getX()+1,this.getPos().getX(),getGrille().getMaxX());
                 }
                 else{
 
@@ -191,8 +191,8 @@ public class Pierre extends ObjetFixe {
             }else{
 
                 System.out.println("b");
-                if(rightDistance==0&&h.getPos().getY()>=this.getPos().getY()){
-                    return new Position(currPos.getX()+1,currPos.getY(),getGrille().getMaxX());
+                if(rightDistance==0&&h.getPos().getY()>this.getPos().getY()){
+                    return new Position(this.getPos().getX()+1,this.getPos().getY(),getGrille().getMaxX());
                 }
                 else{
                     return new Position(currPos.getX(),currPos.getY()+1,getGrille().getMaxX());
@@ -249,7 +249,6 @@ public class Pierre extends ObjetFixe {
                         getGrille().addOccupant(h.getPos(), h);
                     }
                     o.process(h);
-                    //ICI
                     
 
                     System.out.println(h.getGrille());
