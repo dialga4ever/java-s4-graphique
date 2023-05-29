@@ -171,7 +171,7 @@ public class Pierre extends ObjetFixe {
                 tempPos.setY(tempPos.getY()+1);
                 rightDistance++;
             }
-            tempPos.setY(getPos().getY()-1);
+            tempPos.setY(getPos().getY());
             while(stoneAtPosition(tempPos)){
                 tempPos.setY(tempPos.getY()-1);
                 leftDistance++;
